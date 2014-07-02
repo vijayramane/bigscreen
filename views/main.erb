@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="refresh" content="3600">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title>LogicBoxes Bigscreen</title>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+  <script type="text/javascript">
+
+
+    function load_all(){
+        get_work_done_today();
+        get_individual_stats();
+        get_open_overdue_tickets();
+        get_abandoned_chats();
+        get_chat_call_status();
+        get_graph_view();
+    }
+
+            setInterval("get_work_done_today()", 900000);
+            setInterval("get_individual_stats()", 900000);
+            setInterval("get_open_overdue_tickets()", 900000);
+            setInterval("get_abandoned_chats()", 900000);
+            setInterval("get_chat_call_status()", 900000);
+            setInterval("get_graph_view()", 900000);
+
+
+            function make_ajax_call(path, div) {
+
+                $(function() {
+                    $.ajax({
+                        type: "GET", 
+                        url: "/"+path,
+                        success: function(html){
+                            //console.log(div,html);
+                            $("#"+div).html(html);
+                        }
+                    });
+                });
+            }
+
+            function get_work_done_today() {
+                make_ajax_call("work_done_today", "div_work_done_today");
+            }
+            function get_individual_stats() {
+                make_ajax_call("individual_stats", "div_individual_stats");
+            }
+            function get_open_overdue_tickets() {
+                make_ajax_call("open_overdue_tickets", "div_open_overdue_tickets");
+            }
+            function get_abandoned_chats() {
+                make_ajax_call("abandoned_chats", "div_abandoned_chats");
+            }
+            function get_chat_call_status() {
+                make_ajax_call("chat_call_status", "div_chat_call_status");
+            }
+            function get_graph_view() {
+                make_ajax_call("graph_view", "div_graph_view");
+            }
+            
+        </script>
+    </head>
+    <body onload="load_all()">
+
+        <div id="div_work_done_today"><span class="text_small">Loading work done today...</span></div>
+        <div id="div_individual_stats"><span class="text_small">Loading individual stats...</span></div>
+        <div id="div_open_overdue_tickets"><span class="text_small">Loading open & overdue tickets...</span></div>
+        <div id="div_abandoned_chats"><span class="text_small">Loading abandoned chats...</span></div>
+        <div id="div_chat_call_status"><span class="text_small">Loading chat call status...</span></div>
+        <div id="div_graph_view"><span class="text_small">Loading graph view...</span></div>
+
+ 
+  <footer>
+    <p><small>Developed in <a href="http://www.sinatrarb.com/">Sinatra</a>.</small></p>
+  </footer>
+</body>
+</html>
